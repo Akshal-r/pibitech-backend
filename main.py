@@ -20,7 +20,6 @@ CORS(app)
 
 @app.route('/data', methods=['GET', 'POST'])
 def first():
-    return "Welcome to PIBITECH Backend!"    
     if request.method == 'GET':
         return jsonify({"message": "GET request received. Nothing to see here!"}), 200
 
