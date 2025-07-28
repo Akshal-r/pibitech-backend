@@ -1,26 +1,18 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from dotenv import load_dotenv
-from pymongo import MongoClient, errors
+from pymongo import MongoClient
 import os
 
 load_dotenv()
 
 app = Flask(__name__)
+
 CORS(app, resources={r"/*": {"origins": "https://pibitechcoursepage.vercel.app"}})
 
-# MongoDB Connection
-try:
-    mongo_url = os.getenv("Mongo_URL")
-    client = MongoClient(mongo_url, serverSelectionTimeoutMS=5000)
-    client.server_info()  # Force connection to test
-    db = client["Studentsdata"]
-    users = db["students"]
-    print("✅ Connected to MongoDB")
-except errors.ServerSelectionTimeoutError as err:
-    print("❌ MongoDB Connection Error:", err)
-    db = None
-    users = None
+client = MongoClient(os.getenv("Mongo_URL"))
+db = client["Studentsdata"]
+users = db["students"]
 
 @app.route('/')
 def home():
@@ -28,9 +20,6 @@ def home():
 
 @app.route('/data', methods=['POST'])
 def submit_data():
-    if not users:
-        return jsonify({"error": "Database connection failed"}), 500
-
     if not request.is_json:
         return jsonify({"error": "Request must be JSON"}), 415
 
