@@ -48,22 +48,7 @@ def add_student():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-@app.route('/admin-login', methods=['POST'])
-def admin_login():
-    try:
-        data = request.get_json()
-        username = data.get("username")
-        password = data.get("password")
 
-        admin_username = os.getenv("ADMIN_USERNAME")
-        admin_password = os.getenv("ADMIN_PASSWORD")
-
-        if username == admin_username and password == admin_password:
-            return jsonify({"message": "Login successful"}), 200
-        else:
-            return jsonify({"error": "Invalid credentials"}), 401
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
