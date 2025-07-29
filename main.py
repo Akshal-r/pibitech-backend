@@ -4,27 +4,27 @@ from dotenv import load_dotenv
 from pymongo import MongoClient
 import os
 
-# Load environment variables from .env file
+
 load_dotenv()
 
 app = Flask(__name__)
 CORS(app)
 
-# MongoDB connection
+
 try:
     client = MongoClient(os.getenv("Mongo_URL"))
     db = client["Studentsdata"]
     users = db["students"]
-    print("✅ Connected to MongoDB successfully")
+    print(" Connected to MongoDB successfully")
 except Exception as e:
-    print("❌ Database connection failed:", e)
+    print(" Database connection failed:", e)
 
-# Root route
+
 @app.route('/', methods=['GET'])
 def home():
     return jsonify({"message": "PIBITECH backend is running"}), 200
 
-# Fetch raw student data (with _id)
+
 @app.route('/test', methods=['GET'])
 def test_fetch():
     try:
@@ -33,7 +33,7 @@ def test_fetch():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-# Fetch student list (excluding _id)
+
 @app.route('/students', methods=['GET'])
 def get_students():
     try:
@@ -42,7 +42,7 @@ def get_students():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-# Add a new student
+
 @app.route('/add-student', methods=['POST'])
 def add_student():
     try:
@@ -54,7 +54,7 @@ def add_student():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-# 🔒 Admin login route
+
 @app.route('/admin-login', methods=['POST'])
 def admin_login():
     try:
@@ -69,7 +69,7 @@ def admin_login():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-# Run the app
+
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port)
