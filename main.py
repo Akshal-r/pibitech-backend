@@ -4,19 +4,21 @@ from dotenv import load_dotenv
 from pymongo import MongoClient
 import os
 
-
 load_dotenv()
 
 app = Flask(__name__)
 CORS(app)
 
-client = MongoClient(os.getenv("Mongo_URL"))  
-db = client["Studentsdata"]
-users = db["students"]
+try:
+    client = MongoClient(os.getenv("Mongo_URL"))
+    db = client["Studentsdata"]
+    users = db["students"]
+except Exception as e:
+    print("Database connection failed:", e)
 
 @app.route('/', methods=['GET'])
 def home():
-    return jsonify({"message": "PIBITECH backend is running "}), 200
+    return jsonify({"message": "PIBITECH backend is running"}), 200
 
 @app.route('/test', methods=['GET'])
 def test_fetch():
@@ -46,5 +48,5 @@ def add_student():
         return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 5000))
+    port = int(os.environ.get('PORT', 5000))  
     app.run(host='0.0.0.0', port=port)
