@@ -4,12 +4,10 @@ from dotenv import load_dotenv
 from pymongo import MongoClient
 import os
 
-
 load_dotenv()
 
 app = Flask(__name__)
 CORS(app)
-
 
 try:
     client = MongoClient(os.getenv("Mongo_URL"))
@@ -19,11 +17,9 @@ try:
 except Exception as e:
     print(" Database connection failed:", e)
 
-
 @app.route('/', methods=['GET'])
 def home():
-    return jsonify({"message": "PIBITECH backend is running"}), 200
-
+    return jsonify( "PIBITECH backend is running"), 200
 
 @app.route('/test', methods=['GET'])
 def test_fetch():
@@ -33,7 +29,6 @@ def test_fetch():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-
 @app.route('/students', methods=['GET'])
 def get_students():
     try:
@@ -41,7 +36,6 @@ def get_students():
         return jsonify(student_list), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-
 
 @app.route('/add-student', methods=['POST'])
 def add_student():
@@ -54,7 +48,6 @@ def add_student():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-
 @app.route('/admin-login', methods=['POST'])
 def admin_login():
     try:
@@ -62,13 +55,15 @@ def admin_login():
         username = data.get("username")
         password = data.get("password")
 
-        if username == os.getenv("ADMIN_USERNAME") and password == os.getenv("ADMIN_PASSWORD"):
+        admin_username = os.getenv("ADMIN_USERNAME")
+        admin_password = os.getenv("ADMIN_PASSWORD")
+
+        if username == admin_username and password == admin_password:
             return jsonify({"message": "Login successful"}), 200
         else:
             return jsonify({"error": "Invalid credentials"}), 401
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
