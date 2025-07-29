@@ -19,7 +19,7 @@ users = db["students"]
 
 @app.route('/')
 def home():
-    return "✅ Welcome from backend", 200
+    return " Welcome from backend", 200
 
 @app.route('/data', methods=['POST'])
 def submit_data():
@@ -36,7 +36,7 @@ def submit_data():
         return jsonify({"message": "Message Already Sent"}), 400
 
     users.insert_one(data)
-    return jsonify({"message": "✅ Data inserted successfully"}), 200
+    return jsonify({"message": " Data inserted successfully"}), 200
 
 @app.route('/students', methods=['GET'])
 def get_students():
