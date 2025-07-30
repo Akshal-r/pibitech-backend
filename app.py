@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from dotenv import load_dotenv
 from pymongo import MongoClient
+from datetime import datetime  
 import os
 
 load_dotenv()
@@ -9,18 +10,17 @@ load_dotenv()
 app = Flask(__name__)
 CORS(app, origins="https://pibitechcoursepage.vercel.app", methods=["GET", "POST", "OPTIONS"], headers=["Content-Type", "Authorization"])
 
-
 try:
     client = MongoClient(os.getenv("Mongo_URL"))
     db = client["Studentsdata"]
     users = db["students"]
-    print(" Connected to MongoDB successfully")
+    print("Connected to MongoDB successfully")
 except Exception as e:
-    print(" Database connection failed:", e)
+    print("Database connection failed:", e)
 
 @app.route('/', methods=['GET'])
 def home():
-    return jsonify( "PIBITECH backend is running"), 200
+    return jsonify("PIBITECH backend is running"), 200
 
 @app.route('/test', methods=['GET'])
 def test_fetch():
