@@ -7,7 +7,7 @@ import os
 load_dotenv()
 
 app = Flask(__name__)
-CORS(app, origins="https://pibitechcoursepage.vercel.app/")
+CORS(app, origins="https://pibitechcoursepage.vercel.app", methods=["GET", "POST", "OPTIONS"], headers=["Content-Type", "Authorization"])
 
 try:
     client = MongoClient(os.getenv("Mongo_URL"))
