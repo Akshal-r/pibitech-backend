@@ -7,7 +7,7 @@ import os
 load_dotenv()
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, origins="https://pibitechcoursepage.vercel.app/")
 
 try:
     client = MongoClient(os.getenv("Mongo_URL"))
@@ -47,8 +47,6 @@ def add_student():
         return jsonify({"message": "Student added successfully"}), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-
-
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
