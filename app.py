@@ -38,17 +38,6 @@ def get_students():
         return jsonify({"error": str(e)}), 500
 
 
-@app.route('/add-student', methods=['POST'])
-def add_student():
-    try:
-        data = request.get_json()
-        if not data:
-            return jsonify({"error": "No data provided"}), 400
-        users.insert_one(data)
-        return jsonify({"message": "Student added successfully"}), 201
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
-
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port)
