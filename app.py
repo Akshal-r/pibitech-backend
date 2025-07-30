@@ -32,10 +32,11 @@ def test_fetch():
 @app.route('/students', methods=['GET'])
 def get_students():
     try:
-        student_list = list(users.find({}, {"_id": 0}))
+        student_list = list(users.find({}, {"name": 1, "email": 1, "phone": 1, "_id": 0}))
         return jsonify(student_list), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
 
 @app.route('/add-student', methods=['POST'])
 def add_student():
