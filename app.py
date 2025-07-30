@@ -57,7 +57,15 @@ def get_downloads():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-
+@app.route('/log-download', methods=['POST'])
+def log_download():
+    try:
+        data = request.get_json()
+        data['downloaded_at'] = datetime.utcnow()
+        db.downloads.insert_one(data)
+        return jsonify({"message": "Download logged"}), 201
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
