@@ -49,6 +49,19 @@ def add_student():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+@app.route('/brochure', methods=['POST'])
+def save_brochure_request():
+    try:
+        data = request.get_json()
+        if not data:
+            return jsonify({"error": "No data provided"}), 400
+
+        db["brochure_downloads"].insert_one(data)
+        return jsonify({"message": "Saved successfully"}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port)
