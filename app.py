@@ -7,7 +7,8 @@ import os
 load_dotenv()
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": ["https://pibitechcoursepage.vercel.app"]}})
+CORS(app, origins="https://pibitechcoursepage.vercel.app", methods=["GET", "POST", "OPTIONS"], headers=["Content-Type", "Authorization"])
+
 
 try:
     client = MongoClient(os.getenv("Mongo_URL"))
@@ -48,17 +49,14 @@ def add_student():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-@app.route('/brochure', methods=['POST'])
-def save_brochure_request():
+@app.route('/downloads', methods=['GET'])
+def get_downloads():
     try:
-        data = request.get_json()
-        if not data:
-            return jsonify({"error": "No data provided"}), 400
-
-        db["brochure_downloads"].insert_one(data)
-        return jsonify({"message": "Saved successfully"}), 200
+        download_list = list(db.downloads.find({}, {"_id": 0}))
+        return jsonify(download_list), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
 
 
 if __name__ == '__main__':
