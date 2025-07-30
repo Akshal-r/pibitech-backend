@@ -7,8 +7,7 @@ import os
 load_dotenv()
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "https://pibitechcoursepage.vercel.app"}})
-
+CORS(app, origins="https://pibitechcoursepage.vercel.app", methods=["GET", "POST", "OPTIONS"], headers=["Content-Type", "Authorization"])
 
 try:
     client = MongoClient(os.getenv("Mongo_URL"))
@@ -31,6 +30,7 @@ def test_fetch():
         return jsonify({"error": str(e)}), 500
 
 @app.route('/students', methods=['GET'])
+@cross_origin(origin='https://pibitechcoursepage.vercel.app')
 def get_students():
     try:
         student_list = list(users.find({}, {"name": 1, "email": 1, "phone": 1, "_id": 0}))
