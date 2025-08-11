@@ -67,6 +67,19 @@ def log_download():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+         if "email" not in data:
+        return jsonify({"error": "Missing 'email' in request"}), 400
+
+   
+    user = users.find_one({"email": data["email"]})
+    if user:
+        return jsonify({"message": "Message Already Sent"}), 400
+
+   
+    users.insert_one(data)
+    return jsonify({"message": "Data inserted successfully"}), 200
+
+
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port)
