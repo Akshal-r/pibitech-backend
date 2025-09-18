@@ -10,7 +10,7 @@ load_dotenv()
 app = Flask(__name__)
 
 CORS(app, origins=[
-    "https://pibitech-course.vercel.app"], methods=["GET", "POST", "OPTIONS"], headers=["Content-Type", "Authorization"])
+    "https://pibitechcoursepage-wine.vercel.app/"], methods=["GET", "POST", "OPTIONS"], headers=["Content-Type", "Authorization"])
 
 try:
     mongo_url = os.getenv("Mongo_URL")
